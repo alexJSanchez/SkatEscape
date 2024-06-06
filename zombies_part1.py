@@ -20,3 +20,13 @@ def get_random_coordinate(limit):
       # Generate a random coordinate within the given limit
     return random.randint(1, limit)
 
+# The starting positions of the zombies, which are randomly chosen, are shown.
+def create_empty_grid(width, height):
+    # Create an empty grid with the given width and height
+    grid = []
+    for _ in range(height):
+        row = []
+        for _ in range(width):
+            row.append(' ')
+        grid.append(row)
+    return grid
