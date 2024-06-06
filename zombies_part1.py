@@ -57,3 +57,8 @@ def draw_grid(human, zombies, quicksand):
         print("@" + ''.join(row) + "@")
     print("@"*(GRID_WIDTH+2))
 
+
+# Your own position is placed on the screen.
+def delay(seconds):
+    # Delay for the given number of seconds
+    time.sleep(seconds)
