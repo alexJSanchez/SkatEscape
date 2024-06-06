@@ -16,3 +16,7 @@ def initialize_screen():
     print("......ZOMBIES")
     print()
 
+def get_random_coordinate(limit):
+      # Generate a random coordinate within the given limit
+    return random.randint(1, limit)
+
