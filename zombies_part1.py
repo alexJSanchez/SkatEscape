@@ -91,3 +91,84 @@ def get_keypress():
         return get_keypress() # Try again if the input is invalid
         
 
+# Check your new position and report if you hit quicksand, strayed into the swamp or were caught by zombies.
+
+def main():
+    
+    # Initialize the screen
+    initialize_screen()
+    
+    # Initialize the game state
+    human = (get_random_coordinate(GRID_WIDTH), get_random_coordinate(GRID_HEIGHT))
+    zombies = [(get_random_coordinate(GRID_WIDTH), get_random_coordinate(GRID_HEIGHT)) for _ in range(ZOMBIE_COUNT)]
+    quicksand = [(get_random_coordinate(GRID_WIDTH), get_random_coordinate(GRID_HEIGHT)) for _ in range(QUICKSAND_COUNT)]
+    
+    human_x = get_random_coordinate(GRID_WIDTH-2)
+    human_y = get_random_coordinate(GRID_HEIGHT-2)
+    human = (human_x, human_y)
+    
+        
+    # Main game loop
+    while True:
+        # Draw the grid
+        draw_grid(human, zombies, quicksand)
+        print("human:", human, "zombies:", zombies, "quicksand", quicksand)
+        # Get the user's move
+        direction = get_keypress()
+        human_x += direction[0]
+        human_y += direction[1]
+
+        # Check if the human has escaped
+        if zombies == [[0,0] for _ in range(ZOMBIE_COUNT)]:
+            print("You have escaped the zombies! Congratulations!")
+            break
+
+        # Check if the human is out of bounds
+        if human_x in {1, GRID_WIDTH} or human_y in {1, GRID_HEIGHT}:
+            print("You are in the swamp!")
+            continue
+
+        # Check if the human is in quicksand
+        if (human_x, human_y) in quicksand:
+            print("You are in quicksand!")
+            break
+
+        # Check if the human is caught by a zombie
+        if (human_x, human_y) in zombies:
+            print("You are caught by a zombie!")
+            break
+
+        # Update the human's position based on the move
+        human = (human_x, human_y)
+        draw_grid(human, zombies, quicksand)
+        delay(0.5)
+
+        # Check for collisions with zombies and quicksand
+        for i, (zombie_x, zombie_y) in enumerate(zombies):
+            if zombie_x == 0:
+                continue # Skip inactive zombies
+
+            # Move the zombie closer to the human
+            if human_x != zombie_x:
+                zombie_x += (human_x - zombie_x) // abs(human_x - zombie_x)
+            if human_y != zombie_y:
+                zombie_y += (human_y - zombie_y) // abs(human_y - zombie_y)
+
+            # Check if the zombie falls into quicksand
+            if (zombie_x, zombie_y) in quicksand:
+                zombies[i] = (0, 0) # Zombie falls into quicksand
+                print("A zombie falls into quicksand!")
+                continue
+
+            # Check if zombie catches the human
+            if (zombie_x, zombie_y) == human:
+                print("A zombie catches you!")
+                break
+                
+            # Update the zombie's position and redraw the grid
+            zombies[i] = (zombie_x, zombie_y)
+            draw_grid(human, zombies, quicksand)
+            delay(0.5)
+
+if __name__ == "__main__":
+    main()
