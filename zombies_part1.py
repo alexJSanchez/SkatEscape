@@ -4,6 +4,7 @@ import time
 # Constants for grid dimensions
 GRID_WIDTH = 20
 GRID_HEIGHT = 10
+grid= 1
 
 # Constants for number of zombies and quicksandd
 ZOMBIE_COUNT = 4
