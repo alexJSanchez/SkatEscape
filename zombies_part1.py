@@ -30,3 +30,30 @@ def create_empty_grid(width, height):
             row.append(' ')
         grid.append(row)
     return grid
+
+# The randomly chosen quicksand traps are placed on the screen.
+def draw_grid(human, zombies, quicksand):
+    # Draw the grid with the current positions of the human, zombies, and quicksand
+
+    # Create an empty grid
+    grid = create_empty_grid(GRID_WIDTH, GRID_HEIGHT)
+
+    # Place quicksand in the grid
+    for x, y in quicksand:
+        grid[y-1][x-1] = '*'
+    
+    # Place zombies in the grid
+    for x, y in zombies:
+        if x != 0 and y != 0:
+            grid[y-1][x-1] = 'z'
+    
+    # Place human in the grid
+    human_x, human_y = human
+    grid[human_y-1][human_x-1] = 'h'
+
+    # Draw the grid with borders
+    print("@"*(GRID_WIDTH+2))
+    for row in grid:
+        print("@" + ''.join(row) + "@")
+    print("@"*(GRID_WIDTH+2))
+
