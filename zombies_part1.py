@@ -62,3 +62,32 @@ def draw_grid(human, zombies, quicksand):
 def delay(seconds):
     # Delay for the given number of seconds
     time.sleep(seconds)
+
+# Your choice of move is registered.
+def get_keypress():
+    # Get a single keypress from the user
+    direction = input("Enter direction (W=up, X=down, s=stay, a=left, d=right, q=up-left, e=up_right, z=down_left, c=down_right): ")
+
+    if direction == 'w':
+        return (0, -1) # Up
+    elif direction == 'x':
+        return (0, 1) # Down
+    elif direction == 's':
+        return (0, 0) # Stay
+    elif direction == 'a':
+        return (-1, 0) # Left
+    elif direction == 'd':
+        return (1, 0) # Right
+    elif direction == 'q':
+        return (-1, -1) # Up-left
+    elif direction == 'e':
+        return (1, -1)  # Up-right
+    elif direction == 'z':
+        return (-1, 1) # Down-left
+    elif direction == 'c':
+        return (1, 1) # Down-right
+    else:
+        print("Invalid input. Please try again.")
+        return get_keypress() # Try again if the input is invalid
+        
+
